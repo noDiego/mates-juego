@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Matemáticas!</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        :root {
+            --primary: #0077b6;
+            --success: #43aa8b;
+            --error: #f94144;
+            --background: #f6f9fa;
+        }
+        body {
+            background: var(--background);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            margin-top: 40px;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 2px 8px #0002;
+            padding: 32px 20px 20px 20px;
+            max-width: 400px;
+            width: 90%;
+        }
+        .title {
+            text-align: center;
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 8px;
+        }
+        .timer {
+            text-align: center;
+            font-size: 1.7rem;
+            color: #111;
+            font-weight: 600;
+        }
+        .best-time {
+            text-align: center;
+            color: #222c;
+            font-size: 1rem;
+            margin-bottom: 18px;
+        }
+        .start-btn {
+            display: block;
+            margin: 20px auto 10px auto;
+            background: var(--primary);
+            border: none;
+            color: #fff;
+            font-size: 1.2rem;
+            border-radius: 6px;
+            padding: 12px 30px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .start-btn:hover {
+            background: #4361ee;
+        }
+        .problems {
+            margin-top: 22px;
+        }
+        .problem-row {
+            display: flex;
+            align-items: center;
+            font-size: 1.25rem;
+            margin-bottom: 9px;
+        }
+        .symbol {
+            display: inline-block;
+            width: 85px;
+            min-width: 85px;
+            text-align: right;
+            margin-right: 10px;
+        }
+        .problem-row input[type="number"] {
+            width: 64px;
+            font-size: 1.15rem;
+            margin-left: 10px;
+            padding: 6px 4px;
+            border: 2px solid #8883;
+            border-radius: 4px;
+            outline: none;
+            transition: border 0.18s, background 0.19s;
+        }
+        .problem-row input[type="number"].correct {
+            border-color: var(--success);
+            background: #caffddad;
+            animation: popIn 0.22s;
+        }
+        .problem-row input[type="number"].incorrect {
+            border-color: var(--error);
+            background: #ffd6d6af;
+            animation: shake 0.29s;
+        }
+        @keyframes shake {
+            10% { transform: translateX(-4px); }
+            20% { transform: translateX(6px); }
+            30% { transform: translateX(-8px);}
+            40% { transform: translateX(6px);}
+            50% { transform: translateX(-4px);}
+            60% { transform: translateX(0);}
+        }
+        @keyframes popIn {
+            0% { transform: scale(1);}
+            55% { transform: scale(1.21);}
+            100% { transform: scale(1);}
+        }
+        .final-time {
+            font-size: 1.4rem;
+            color: var(--primary);
+            text-align: center;
+            margin-top: 16px;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+        .new-best {
+            color: var(--success);
+            font-weight: 700;
+            text-align: center;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="title">Jueguito</div>
+    <div class="timer">⏱ 0.00s</div>
+    <div class="best-time">Mejor tiempo: --</div>
+    <div class="checkboxes" style="text-align:center; margin-bottom:10px;">
+        <label style="margin-right:15px;">
+            <input type="checkbox" id="chk-suma" checked> Suma
+        </label>
+        <label style="margin-right:15px;">
+            <input type="checkbox" id="chk-resta" checked> Resta
+        </label>
+        <label>
+            <input type="checkbox" id="chk-multi" checked> Multiplicación
+        </label>
+    </div>
+    <button class="start-btn">Comenzar</button>
+    <div class="problems"></div>
+    <div class="final-time" style="display:none"></div>
+    <div class="new-best" style="display:none">¡Nuevo Mejor Tiempo!</div>
+</div>
+
+<script>
+    // ----- CONFIGURACIÓN -----
+    const NUM_PROBLEMS = 12; // Cambia esto para más/menos ejercicios
+    const SUM_FIRST_DIGIT_MIN = 1;
+    const SUM_FIRST_DIGIT_MAX = 89; // 1 o 2 dígitos
+    const SUM_SECOND_DIGIT_MIN = 1;
+    const SUM_SECOND_DIGIT_MAX = 9;
+    const REST_FIRST_DIGIT_MIN = 1;
+    const REST_FIRST_DIGIT_MAX = 19;
+    const REST_SECOND_DIGIT_MIN = 1;
+    const REST_SECOND_DIGIT_MAX = 9;
+    const MULT_FIRST_MIN = 2;
+    const MULT_FIRST_MAX = 9;
+    const MULT_SECOND_MIN = 2;
+    const MULT_SECOND_MAX = 9;
+
+    // ----- ELEMENTOS -----
+    const timerElem = document.querySelector('.timer');
+    const startBtn = document.querySelector('.start-btn');
+    const bestTimeElem = document.querySelector('.best-time');
+    const problemsElem = document.querySelector('.problems');
+    const finalTimeElem = document.querySelector('.final-time');
+    const newBestElem = document.querySelector('.new-best');
+
+    // ----- VARIABLES -----
+    let startTime = null;
+    let timerInterval = null;
+    let currentProblem = 0;
+    let problems = [];
+    let isRunning = false;
+    let bestTime = null;
+
+    // ----- SONIDOS -----
+    // Sonido correcto: "pling" y error: "buzz" - ambos generados sencillos
+    function playCorrectSound() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.type = "triangle";
+            o.frequency.value = 880;
+            g.gain.value = 0.13;
+            o.connect(g).connect(ctx.destination);
+            o.start();
+            setTimeout(()=>{o.frequency.value=1330;}, 70);
+            setTimeout(()=>{
+                g.gain.linearRampToValueAtTime(0, ctx.currentTime+0.08);
+                o.stop();
+                ctx.close();
+            },150);
+        } catch(e){}
+    }
+    function playErrorSound() {
+        try {
+            const ctx = new (window.AudioContext || window.webkitAudioContext)();
+            const o = ctx.createOscillator();
+            const g = ctx.createGain();
+            o.type = "square";
+            o.frequency.value = 290;
+            g.gain.value = 0.17;
+            o.connect(g).connect(ctx.destination);
+            o.start();
+            setTimeout(()=>{o.frequency.value=210;}, 60);
+            setTimeout(()=>{
+                g.gain.linearRampToValueAtTime(0, ctx.currentTime+0.09);
+                o.stop();
+                ctx.close();
+            },140);
+        } catch(e){}
+    }
+
+    // ----- UTILIDAD -----
+    function leerMejorTiempo() {
+        const t = localStorage.getItem("mathGame_bestTime");
+        if(t) return parseFloat(t);
+        return null;
+    }
+    function guardarMejorTiempo(newTime) {
+        localStorage.setItem("mathGame_bestTime", newTime+"");
+    }
+    function mostrarMejorTiempo() {
+        bestTime = leerMejorTiempo();
+        if(bestTime !== null) {
+            bestTimeElem.innerText = "Mejor tiempo: " + bestTime.toFixed(2) + "s";
+        } else {
+            bestTimeElem.innerText = "Mejor tiempo: --";
+        }
+    }
+    function randInt(a, b) {
+        return Math.floor(Math.random()*(b-a+1))+a;
+    }
+
+    function tiposSeleccionados() {
+        const t = [];
+        if(document.getElementById("chk-suma").checked) t.push("suma");
+        if(document.getElementById("chk-resta").checked) t.push("resta");
+        if(document.getElementById("chk-multi").checked) t.push("multi");
+        return t;
+    }
+
+    // ----- GENERADOR DE PROBLEMAS -----
+    function generarProblemas(n) {
+        const lista = [];
+        const tipos = tiposSeleccionados();
+        if(tipos.length === 0) {
+            // Por si no seleccionó ningún tipo, forzamos suma
+            tipos.push("suma");
+        }
+        let tipoIndex = 0;
+        for(let i=0; i<n; ++i) {
+            let obj = {};
+            let tipo = tipos[tipoIndex];
+            if(tipo === "suma") {
+                obj.tipo = "suma";
+                obj.a = randInt(SUM_FIRST_DIGIT_MIN, SUM_FIRST_DIGIT_MAX);
+                obj.b = randInt(SUM_SECOND_DIGIT_MIN, SUM_SECOND_DIGIT_MAX);
+                obj.resp = obj.a + obj.b;
+                obj.texto = `${obj.a} + ${obj.b} =`;
+            } else if(tipo === "resta") {
+                obj.tipo = "resta";
+                obj.a = randInt(REST_FIRST_DIGIT_MIN, REST_FIRST_DIGIT_MAX);
+                obj.b = randInt(REST_SECOND_DIGIT_MIN, REST_SECOND_DIGIT_MAX);
+                if(obj.a < obj.b) [obj.a, obj.b] = [obj.b, obj.a];
+                obj.resp = obj.a - obj.b;
+                obj.texto = `${obj.a} – ${obj.b} =`;
+            } else { // multi
+                obj.tipo = "multi";
+                obj.a = randInt(MULT_FIRST_MIN, MULT_FIRST_MAX);
+                obj.b = randInt(MULT_SECOND_MIN, MULT_SECOND_MAX);
+                obj.resp = obj.a * obj.b;
+                obj.texto = `${obj.a} × ${obj.b} =`;
+            }
+            lista.push(obj);
+            tipoIndex = (tipoIndex+1)%tipos.length;
+        }
+        return lista;
+    }
+
+    // ----- TIMER -----
+    function comenzarTimer() {
+        detenerTimer();
+        timerElem.innerText = "⏱ 0.00s";
+        startTime = performance.now();
+        timerInterval = setInterval(()=>{
+            if(!startTime) return;
+            const t = (performance.now()-startTime)/1000;
+            timerElem.innerText = `⏱ ${t.toFixed(2)}s`;
+        }, 33);
+    }
+    function detenerTimer() {
+        if(timerInterval) clearInterval(timerInterval);
+        timerInterval = null;
+    }
+
+    // ----- JUEGO -----
+    function limpiar() {
+        problemsElem.innerHTML = "";
+        finalTimeElem.style.display = "none";
+        newBestElem.style.display = "none";
+    }
+    function iniciarJuego() {
+        isRunning = true;
+        currentProblem = 0;
+        problems = generarProblemas(NUM_PROBLEMS);
+        limpiar();
+        mostrarProblema(0);
+        comenzarTimer();
+        startBtn.innerText = "Reiniciar";
+    }
+
+    // ----- CREAR PROBLEMAS HTML -----
+    function mostrarProblema(n) {
+        // Para el primero o cada vez que resuelva correctamente el anterior
+        for(let i=problemsElem.children.length; i<=n; ++i) {
+            const p = problems[i];
+            const row = document.createElement('div');
+            row.className = "problem-row";
+
+            const span = document.createElement('span');
+            span.className = "symbol";
+            span.innerText = p.texto;
+            row.appendChild(span);
+
+            const inp = document.createElement('input');
+            inp.type = "number";
+            inp.autocomplete = "off";
+            inp.setAttribute("pattern", "\\d+");
+            inp.setAttribute("inputmode", "numeric");
+            inp.size = 4;
+
+            // Si no es el actual, desactivar (cuando sea correcto)
+            if(i !== n) inp.disabled = true;
+
+            row.appendChild(inp);
+            problemsElem.appendChild(row);
+
+            // Si es el actual, le ponemos eventos:
+            if(i===n) {
+                inp.addEventListener('keydown', e=>{
+                    // Para responder más rápido con Enter:
+                    if(e.key==="Enter") inp.blur();
+                });
+                inp.addEventListener('input', ()=>{
+                    // Limpia clases al editar
+                    inp.classList.remove("correct", "incorrect");
+                });
+                inp.addEventListener('blur', ()=>{
+                    revisarRespuesta(inp, p, n);
+                });
+                setTimeout(()=>{inp.focus(); inp.select();}, 80); // pone el foco
+            }
+        }
+    }
+
+    function revisarRespuesta(input, problema, problemaIndex) {
+        const val = input.value.trim();
+        if(val==="" || isNaN(val)) return;
+        if(Number(val) === problema.resp) {
+            input.classList.remove("incorrect");
+            input.classList.add("correct");
+            input.disabled = true;
+            playCorrectSound();
+            // Mostrar el siguiente problema o finalizar:
+            currentProblem++;
+            if(currentProblem<problems.length) {
+                mostrarProblema(currentProblem);
+            } else {
+                finalizarJuego();
+            }
+        } else {
+            input.classList.remove("correct");
+            input.classList.add("incorrect");
+            playErrorSound();
+            setTimeout(()=>{input.focus();input.select();}, 90);
+        }
+    }
+
+    function finalizarJuego() {
+        detenerTimer();
+        isRunning = false;
+        // Calcular tiempo final
+        let t = (performance.now()-startTime)/1000;
+        finalTimeElem.innerText = `¡Finalizaste en ${t.toFixed(2)}s!`;
+        finalTimeElem.style.display = "";
+        // Mejor tiempo
+        let oldBest = leerMejorTiempo();
+        if(!oldBest || t<oldBest) {
+            guardarMejorTiempo(t);
+            newBestElem.style.display = "";
+            mostrarMejorTiempo();
+        }
+    }
+
+    // ----- EVENTOS -----
+    startBtn.addEventListener('click', ()=>{
+        if(isRunning) {
+            // Si está en juego, confirmar reinicio
+            if(!confirm("¿Reiniciar el juego? Se perderá el progreso actual.")) return;
+        }
+        iniciarJuego();
+    });
+
+    // Al cargar, inicializa:
+    mostrarMejorTiempo();
+    limpiar();
+
+</script>
+</body>
+</html>
