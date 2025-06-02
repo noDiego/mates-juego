@@ -170,29 +170,18 @@
 </head>
 <body>
 <div class="layout-row">
-<div class="container">
+    <div class="container">
 
-    <div class="timer">⏱ 0.00s</div>
-    <div class="best-time">Tu mejor tiempo: --</div>
-<div class="checkboxes" style="text-align:center; display:none;">
-    <label style="margin-right:15px;">
-        <input type="checkbox" id="chk-suma">
-    </label>
-    <label style="margin-right:15px;">
-        <input type="checkbox" id="chk-resta">
-    </label>
-    <label>
-        <input type="checkbox" id="chk-multi">
-    </label>
-</div>
-    <div class="name-row" style="text-align:center; margin-bottom:16px;">
-        <input id="player-name" type="text" autocomplete="off" placeholder="Tu nombre" maxlength="32" style="padding:10px; font-size:1.15rem; width:70%;">
+        <div class="timer">⏱ 0.00s</div>
+        <div class="best-time">Tu mejor tiempo: --</div>
+        <div class="name-row" style="text-align:center; margin-bottom:16px;">
+            <input id="player-name" type="text" autocomplete="off" placeholder="Tu nombre" maxlength="32" style="padding:10px; font-size:1.15rem; width:70%;">
+        </div>
+        <button class="start-btn">Comenzar</button>
+        <div class="problems"></div>
+        <div class="final-time" style="display:none"></div>
+        <div class="new-best" style="display:none">¡Nuevo Mejor Tiempo!</div>
     </div>
-    <button class="start-btn">Comenzar</button>
-    <div class="problems"></div>
-    <div class="final-time" style="display:none"></div>
-    <div class="new-best" style="display:none">¡Nuevo Mejor Tiempo!</div>
-</div>
     <div class="scores-table-wrap">
         <!-- Tabla de últimos intentos -->
         <h3 style="text-align:center; color:#0077b6;">Últimos intentos</h3>
@@ -316,22 +305,10 @@
         return Math.floor(Math.random()*(b-a+1))+a;
     }
 
-    function tiposSeleccionados() {
-        const t = [];
-        if(document.getElementById("chk-suma").checked) t.push("suma");
-        if(document.getElementById("chk-resta").checked) t.push("resta");
-        if(document.getElementById("chk-multi").checked) t.push("multi");
-        return t;
-    }
-
     // ----- GENERADOR DE PROBLEMAS -----
     function generarProblemas(n) {
         const lista = [];
-        const tipos = tiposSeleccionados();
-        if(tipos.length === 0) {
-            // Por si no seleccionó ningún tipo, forzamos suma
-            tipos.push("suma");
-        }
+        const tipos = ["suma", "resta", "multi"];
         let tipoIndex = 0;
         for(let i=0; i<n; ++i) {
             let obj = {};
@@ -506,23 +483,20 @@
                 tbody.innerHTML = ""; // limpia
                 for(const s of scores) {
                     const tr = document.createElement('tr');
-                    const fecha = new Date(s.date);
-                    // Formatea fecha
+                    const fecha = new Date(s.date); // Formatea fecha
                     const fechaStr = fecha.toLocaleString('es-ES', {
                         day: '2-digit', month: '2-digit', year: '2-digit',
                         hour: '2-digit', minute: '2-digit', second: '2-digit'
                     });
-
                     tr.innerHTML = `
           <td>${s.name ? s.name.replace(/</g, "&lt;") : '-'}</td>
-          <td>${typeof s.score === "number" ? s.score.toFixed(2) : s.score}</td>
+          <td>${Number(s.score).toFixed(2)}</td>
           <td style="font-size:0.92em;">${fechaStr}</td>
         `;
                     tbody.appendChild(tr);
                 }
             })
             .catch(err => {
-                // En vez de console, podrías mostrar en UI si quieres
                 console.warn("No se pudo obtener /scores:", err);
             });
     }
@@ -542,7 +516,7 @@
                     const tr = document.createElement('tr');
                     tr.innerHTML = `
           <td>${s.name ? s.name.replace(/</g, "&lt;") : '-'}</td>
-          <td>${typeof s.score === "number" ? s.score.toFixed(2) : s.score}</td>
+          <td>${Number(s.score).toFixed(2)}</td>
           <td style="font-size:0.92em;">${fechaStr}</td>
         `;
                     tbody.appendChild(tr);
