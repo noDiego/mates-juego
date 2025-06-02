@@ -22,13 +22,12 @@
             align-items: center;
         }
         .container {
-            margin-top: 40px;
             background: #fff;
             border-radius: 10px;
             box-shadow: 0px 2px 8px #0002;
             padding: 32px 20px 20px 20px;
             max-width: 400px;
-            width: 90%;
+            width: 100%;
         }
         .title {
             text-align: center;
@@ -63,6 +62,7 @@
         .start-btn:hover {
             background: #4361ee;
         }
+
         .problems {
             margin-top: 22px;
         }
@@ -126,13 +126,54 @@
             text-align: center;
             font-size: 1.1rem;
         }
+        .scores-table th, .scores-table td {
+            font-size: 1rem;
+            padding: 6px 4px;
+            text-align: center;
+        }
+        .scores-table tbody tr:nth-child(even) {
+            background: #f6f9fa;
+        }
+        .layout-row {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: flex-start;  /* Para que las partes queden arriba alineadas */
+            gap: 32px;
+            min-height: 100vh;
+            width: 100%;
+            padding-top: 40px;
+            box-sizing: border-box;
+        }
+        .scores-table-wrap {
+            max-width: 350px;
+            min-width: 225px;
+            width: 100%;
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 2px 8px #0002;
+            padding: 18px 14px 18px 14px;
+            height: fit-content;
+        }
+        @media (max-width: 850px) {
+            .layout-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+            .scores-table-wrap {
+                margin-top: 12px;
+                max-width: 95vw;
+            }
+        }
     </style>
 </head>
 <body>
+<div class="layout-row">
 <div class="container">
-    <div class="title">Jueguito</div>
+
     <div class="timer">⏱ 0.00s</div>
-    <div class="best-time">Mejor tiempo: --</div>
+    <div class="best-time">Tu mejor tiempo: --</div>
     <div class="checkboxes" style="text-align:center; margin-bottom:10px;">
         <label style="margin-right:15px;">
             <input type="checkbox" id="chk-suma" checked> Suma
@@ -144,10 +185,42 @@
             <input type="checkbox" id="chk-multi" checked> Multiplicación
         </label>
     </div>
+    <div class="name-row" style="text-align:center; margin-bottom:16px;">
+        <input id="player-name" type="text" autocomplete="off" placeholder="Tu nombre" maxlength="32" style="padding:10px; font-size:1.15rem; width:70%;">
+    </div>
     <button class="start-btn">Comenzar</button>
     <div class="problems"></div>
     <div class="final-time" style="display:none"></div>
     <div class="new-best" style="display:none">¡Nuevo Mejor Tiempo!</div>
+</div>
+    <div class="scores-table-wrap">
+        <!-- Tabla de últimos intentos -->
+        <h3 style="text-align:center; color:#0077b6;">Últimos intentos</h3>
+        <table class="scores-table" style="width:100%; border-collapse:collapse;" id="tabla-intentos">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Tiempo (s)</th>
+                <th>Fecha</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+
+        <!-- Tabla de mejores puntajes por jugador -->
+        <h3 style="text-align:center; color:#43aa8b; margin-top:18px;">Top tiempos</h3>
+        <table class="scores-table" style="width:100%; border-collapse:collapse;" id="tabla-mejores">
+            <thead>
+            <tr>
+                <th>Nombre</th>
+                <th>Mejor Tiempo (s)</th>
+                <th>Fecha</th>
+            </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+
 </div>
 
 <script>
@@ -165,6 +238,7 @@
     const MULT_FIRST_MAX = 9;
     const MULT_SECOND_MIN = 2;
     const MULT_SECOND_MAX = 9;
+    const URL = 'http://nodiego.duckdns.org:3000';
 
     // ----- ELEMENTOS -----
     const timerElem = document.querySelector('.timer');
@@ -233,9 +307,9 @@
     function mostrarMejorTiempo() {
         bestTime = leerMejorTiempo();
         if(bestTime !== null) {
-            bestTimeElem.innerText = "Mejor tiempo: " + bestTime.toFixed(2) + "s";
+            bestTimeElem.innerText = "Tu mejor tiempo: " + bestTime.toFixed(2) + "s";
         } else {
-            bestTimeElem.innerText = "Mejor tiempo: --";
+            bestTimeElem.innerText = "Tu mejor tiempo: --";
         }
     }
     function randInt(a, b) {
@@ -394,6 +468,10 @@
         let t = (performance.now()-startTime)/1000;
         finalTimeElem.innerText = `¡Finalizaste en ${t.toFixed(2)}s!`;
         finalTimeElem.style.display = "";
+
+        const playerName = document.getElementById('player-name').value.trim();
+        enviarPuntaje(playerName, t);
+
         // Mejor tiempo
         let oldBest = leerMejorTiempo();
         if(!oldBest || t<oldBest) {
@@ -401,12 +479,98 @@
             newBestElem.style.display = "";
             mostrarMejorTiempo();
         }
+        recargarScoresTrasEnvio();
     }
+
+    function enviarPuntaje(nombre, puntaje) {
+        fetch(URL+'/score', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name: nombre, score: puntaje })
+        })
+            .then(res => res.json())
+            .then(data => {
+                console.log('Puntaje enviado');
+            })
+            .catch(err => {
+                console.warn("No se pudo enviar el puntaje al servidor:", err);
+            });
+    }
+
+    // ---- Tabla de Últimos Intentos ----
+    function cargarTablaScores() {
+        fetch(URL+'/scores?limit=6')
+            .then(res => res.json())
+            .then(scores => {
+                const tbody = document.querySelector('.scores-table tbody');
+                tbody.innerHTML = ""; // limpia
+                for(const s of scores) {
+                    const tr = document.createElement('tr');
+                    const fecha = new Date(s.date);
+                    // Formatea fecha
+                    const fechaStr = fecha.toLocaleString('es-ES', {
+                        day: '2-digit', month: '2-digit', year: '2-digit',
+                        hour: '2-digit', minute: '2-digit', second: '2-digit'
+                    });
+
+                    tr.innerHTML = `
+          <td>${s.name ? s.name.replace(/</g, "&lt;") : '-'}</td>
+          <td>${typeof s.score === "number" ? s.score.toFixed(2) : s.score}</td>
+          <td style="font-size:0.92em;">${fechaStr}</td>
+        `;
+                    tbody.appendChild(tr);
+                }
+            })
+            .catch(err => {
+                // En vez de console, podrías mostrar en UI si quieres
+                console.warn("No se pudo obtener /scores:", err);
+            });
+    }
+
+    function cargarTablaMejores() {
+        fetch(URL+'/scores/top?limit=10')
+            .then(res => res.json())
+            .then(scores => {
+                const tbody = document.querySelector('#tabla-mejores tbody');
+                tbody.innerHTML = "";
+                for(const s of scores) {
+                    const fecha = new Date(s.date);
+                    const fechaStr = fecha.toLocaleString('es-ES', {
+                        day: '2-digit', month: '2-digit', year: '2-digit',
+                        hour: '2-digit', minute: '2-digit', second: '2-digit'
+                    });
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+          <td>${s.name ? s.name.replace(/</g, "&lt;") : '-'}</td>
+          <td>${typeof s.score === "number" ? s.score.toFixed(2) : s.score}</td>
+          <td style="font-size:0.92em;">${fechaStr}</td>
+        `;
+                    tbody.appendChild(tr);
+                }
+            })
+            .catch(err => {
+                console.warn("No se pudo obtener /scores/top:", err);
+            });
+    }
+
+    function recargarScoresTrasEnvio() {
+        setTimeout(() => {
+            cargarTablaScores();
+            cargarTablaMejores();
+        }, 1000);
+    }
+
 
     // ----- EVENTOS -----
     startBtn.addEventListener('click', ()=>{
+        const nameInput = document.getElementById("player-name");
+        const playerName = nameInput.value.trim();
+        if (!playerName) {
+            alert("Pon tu nombre antes de jugar.");
+            nameInput.focus();
+            return;
+        }
         if(isRunning) {
-            // Si está en juego, confirmar reinicio
             if(!confirm("¿Reiniciar el juego? Se perderá el progreso actual.")) return;
         }
         iniciarJuego();
@@ -414,6 +578,8 @@
 
     // Al cargar, inicializa:
     mostrarMejorTiempo();
+    cargarTablaScores();
+    cargarTablaMejores()
     limpiar();
 
 </script>
