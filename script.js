@@ -68,6 +68,70 @@ function playErrorSound() {
         },140);
     } catch(e){}
 }
+function playCountdownBeep(n, isLastBeep = false) {
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+
+        if (isLastBeep || n === 1) {
+            // Sonido final más distintivo (como "GO!")
+            o.type = "square";
+            o.frequency.value = 800; // Más agudo
+            g.gain.value = 0.3; // Más fuerte
+
+            // Envelope más pronunciado
+            g.gain.setValueAtTime(0, ctx.currentTime);
+            g.gain.linearRampToValueAtTime(0.3, ctx.currentTime + 0.02);
+            g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.4);
+
+            o.start();
+            o.stop(ctx.currentTime + 0.4);
+        } else {
+            // Sonidos de conteo - todos iguales pero más cortos
+            o.type = "sine";
+            o.frequency.value = 400; // Frecuencia constante para todos
+            g.gain.value = 0.2;
+
+            // Envelope más corto y definido
+            g.gain.setValueAtTime(0, ctx.currentTime);
+            g.gain.linearRampToValueAtTime(0.2, ctx.currentTime + 0.01);
+            g.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.15);
+
+            o.start();
+            o.stop(ctx.currentTime + 0.15);
+        }
+
+        o.connect(g);
+        g.connect(ctx.destination);
+
+        // Cerrar el contexto después del sonido
+        setTimeout(() => {
+            ctx.close();
+        }, isLastBeep ? 500 : 200);
+
+    } catch(e) {
+        console.warn('No se pudo reproducir el sonido:', e);
+    }
+}
+
+function playGoSound() { // ¡Ya!
+    try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const o = ctx.createOscillator();
+        const g = ctx.createGain();
+        o.type = "triangle";
+        o.frequency.value = 1240;
+        g.gain.value = 0.17;
+        o.connect(g).connect(ctx.destination);
+        o.start();
+        setTimeout(()=>{ o.frequency.value=1960; }, 90);
+        setTimeout(()=>{
+            g.gain.linearRampToValueAtTime(0, ctx.currentTime+0.15);
+            o.stop(); ctx.close();
+        }, 290);
+    } catch(e){}
+}
 
 // ----- UTILIDAD -----
 function leerMejorTiempo() {
@@ -174,6 +238,37 @@ function limpiar() {
     problemsElem.innerHTML = "";
     finalTimeElem.style.display = "none";
     newBestElem.style.display = "none";
+}
+function mostrarCountdownIniciarJuego(callbackDespues) {
+    const overlay = document.getElementById('countdown-overlay');
+    const numSpan = document.getElementById('countdown-number');
+    overlay.classList.add('show');
+    numSpan.innerText = "";
+    let count = 3;
+
+    function mostrarNumero(n) {
+        if (n > 0) {
+            numSpan.innerText = n;
+            numSpan.style.color = n === 1 ? "#43aa8b" : "#fff"; // Verde en 1
+            numSpan.style.animation = 'none'; // Reset animation
+            // eslint-disable-next-line
+            void numSpan.offsetWidth;          // Trigger reflow
+            numSpan.style.animation = '';
+            playCountdownBeep(n);
+            setTimeout(()=>mostrarNumero(n-1), 850);
+        } else {
+            numSpan.innerText = "¡YA!";
+            numSpan.style.color = "#ffd60a";
+            numSpan.style.animation = "";
+            playGoSound();
+            setTimeout(() => {
+                overlay.classList.remove('show');
+                numSpan.innerText = '';
+                callbackDespues && callbackDespues();
+            }, 730);
+        }
+    }
+    mostrarNumero(count);
 }
 function iniciarJuego() {
     isRunning = true;
@@ -366,7 +461,7 @@ startBtn.addEventListener('click', ()=>{
         nameInput.focus();
         return;
     }
-    iniciarJuego();
+    mostrarCountdownIniciarJuego(iniciarJuego);
 });
 
 // Al cargar, inicializa:

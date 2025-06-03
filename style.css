@@ -159,3 +159,36 @@ body {
         max-width: 95vw;
     }
 }
+
+#countdown-overlay {
+    position: fixed;
+    z-index: 99;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(30,44,63,0.51);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    transition: background 0.2s;
+}
+
+#countdown-overlay.show {
+    display: flex !important;
+}
+
+#countdown-number {
+    font-size: 6rem;
+    color: #fff;
+    font-weight: 700;
+    text-shadow: 3px 6px 22px #003b7766, 0 5px 25px #000b;
+    animation: countdown-pop 0.58s cubic-bezier(.6,2,.6,1.2);
+}
+
+@keyframes countdown-pop {
+    0% {transform: scale(0.6);}
+    40% {transform: scale(1.2);}
+    100% {transform: scale(1);}
+}
