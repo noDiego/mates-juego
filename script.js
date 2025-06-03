@@ -1,16 +1,16 @@
 // ----- CONFIGURACIÓN -----
-const NUM_PROBLEMS = 12; // Cambia esto para más/menos ejercicios
-const SUM_FIRST_DIGIT_MIN = 1;
-const SUM_FIRST_DIGIT_MAX = 89; // 1 o 2 dígitos
-const SUM_SECOND_DIGIT_MIN = 1;
+const NUM_PROBLEMS = 12;
+const SUM_FIRST_DIGIT_MIN = 2;
+const SUM_FIRST_DIGIT_MAX = 89;
+const SUM_SECOND_DIGIT_MIN = 2;
 const SUM_SECOND_DIGIT_MAX = 9;
-const REST_FIRST_DIGIT_MIN = 1;
-const REST_FIRST_DIGIT_MAX = 19;
-const REST_SECOND_DIGIT_MIN = 1;
+const REST_FIRST_DIGIT_MIN = 2;
+const REST_FIRST_DIGIT_MAX = 29;
+const REST_SECOND_DIGIT_MIN = 2;
 const REST_SECOND_DIGIT_MAX = 9;
 const MULT_FIRST_MIN = 2;
 const MULT_FIRST_MAX = 9;
-const MULT_SECOND_MIN = 2;
+const MULT_SECOND_MIN = 3;
 const MULT_SECOND_MAX = 9;
 const URL = 'https://nodiego-noproxy.onrender.com/mathgame';
 
@@ -365,9 +365,6 @@ startBtn.addEventListener('click', ()=>{
         alert("Pon tu nombre antes de jugar.");
         nameInput.focus();
         return;
-    }
-    if(isRunning) {
-        if(!confirm("¿Reiniciar el juego? Se perderá el progreso actual.")) return;
     }
     iniciarJuego();
 });
