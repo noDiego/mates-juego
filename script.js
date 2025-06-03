@@ -17,7 +17,6 @@ const URL = 'https://nodiego-noproxy.onrender.com/mathgame';
 // ----- ELEMENTOS -----
 const timerElem = document.querySelector('.timer');
 const startBtn = document.querySelector('.start-btn');
-const bestTimeElem = document.querySelector('.best-time');
 const problemsElem = document.querySelector('.problems');
 const finalTimeElem = document.querySelector('.final-time');
 const newBestElem = document.querySelector('.new-best');
@@ -28,7 +27,6 @@ let timerInterval = null;
 let currentProblem = 0;
 let problems = [];
 let isRunning = false;
-let bestTime = null;
 
 // ----- SONIDOS -----
 // Sonido correcto: "pling" y error: "buzz" - ambos generados sencillos
@@ -134,22 +132,6 @@ function playGoSound() { // ¡Ya!
 }
 
 // ----- UTILIDAD -----
-function leerMejorTiempo() {
-    const t = localStorage.getItem("mathGame_bestTime");
-    if(t) return parseFloat(t);
-    return null;
-}
-function guardarMejorTiempo(newTime) {
-    localStorage.setItem("mathGame_bestTime", newTime+"");
-}
-function mostrarMejorTiempo() {
-    bestTime = leerMejorTiempo();
-    if(bestTime !== null) {
-        bestTimeElem.innerText = "Tu mejor tiempo: " + bestTime.toFixed(2) + "s";
-    } else {
-        bestTimeElem.innerText = "Tu mejor tiempo: --";
-    }
-}
 function randInt(a, b) {
     return Math.floor(Math.random()*(b-a+1))+a;
 }
@@ -358,13 +340,6 @@ function finalizarJuego() {
     const playerName = document.getElementById('player-name').value.trim();
     enviarPuntaje(playerName, t);
 
-    // Mejor tiempo
-    let oldBest = leerMejorTiempo();
-    if(!oldBest || t<oldBest) {
-        guardarMejorTiempo(t);
-        newBestElem.style.display = "";
-        mostrarMejorTiempo();
-    }
     recargarScoresTrasEnvio();
 }
 
@@ -465,7 +440,6 @@ startBtn.addEventListener('click', ()=>{
 });
 
 // Al cargar, inicializa:
-mostrarMejorTiempo();
 cargarTablaScores();
 cargarTablaMejores()
 limpiar();

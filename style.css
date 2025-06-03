@@ -34,12 +34,6 @@ body {
     color: #111;
     font-weight: 600;
 }
-.best-time {
-    text-align: center;
-    color: #222c;
-    font-size: 1rem;
-    margin-bottom: 18px;
-}
 .start-btn {
     display: block;
     margin: 20px auto 10px auto;
@@ -139,13 +133,13 @@ body {
     box-sizing: border-box;
 }
 .scores-table-wrap {
-    max-width: 350px;
-    min-width: 225px;
+    max-width: 440px;   /* <--- aquí puedes ajustar el ancho máximo */
+    min-width: 260px;   /* <--- aquí aseguras más espacio mínimo */
     width: 100%;
     background: #fff;
     border-radius: 10px;
     box-shadow: 0px 2px 8px #0002;
-    padding: 18px 14px 18px 14px;
+    padding: 18px 18px 18px 18px; /* Un poco más de padding lateral */
     height: fit-content;
 }
 @media (max-width: 850px) {
