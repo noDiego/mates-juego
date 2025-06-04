@@ -2,41 +2,35 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Matemáticas!</title>
+    <title>Juego de Memoria</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="memory-game.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
 <nav class="main-navbar">
     <div class="nav-container">
         <a href="index.html" class="nav-link nav-logo">Jueguitos</a>
         <div class="nav-links">
-            <a href="index.html" class="nav-link active">Matemáticas</a>
-            <a href="memory-game.html" class="nav-link">Memoria</a>
+            <a href="index.html" class="nav-link">Matemáticas</a>
+            <a href="memory-game.html" class="nav-link active">Memoria</a>
         </div>
     </div>
 </nav>
-
 <div class="layout-row">
     <div class="container">
-
-        <!-- título nuevo -->
-        <h1 class="title">Matemáticas!</h1>
-
-        <!-- timer ya existente -->
+        <h1 class="title">Memoria!</h1>
         <div class="timer">⏱ 0.00s</div>
-
         <div class="name-row" style="text-align:center; margin-bottom:16px;margin-top:16px;">
-            <input id="player-name" type="text" autocomplete="off" placeholder="Tu nombre" maxlength="20" style="padding:10px; font-size:1.15rem; width:70%;">
+            <input id="player-name" type="text" autocomplete="off" placeholder="Tu nombre" maxlength="20"
+                   style="padding:10px; font-size:1.15rem; width:70%;">
         </div>
-        <button class="start-btn">Comenzar</button>
-        <div class="problems"></div>
+        <button id="restart-button" class="start-btn">Comenzar</button>
+        <div id="game-board" class="memory-board"></div>
         <div class="final-time" style="display:none"></div>
         <div class="new-best" style="display:none">¡Nuevo Mejor Tiempo!</div>
     </div>
     <div class="scores-table-wrap">
-        <!-- Tabla de últimos intentos -->
         <h3 style="text-align:center; color:#0077b6;">Últimos intentos</h3>
         <table class="scores-table" style="width:100%; border-collapse:collapse;" id="tabla-intentos">
             <thead>
@@ -48,8 +42,6 @@
             </thead>
             <tbody></tbody>
         </table>
-
-        <!-- Tabla de mejores puntajes por jugador -->
         <h3 style="text-align:center; color:#43aa8b; margin-top:18px;">Top</h3>
         <table class="scores-table" style="width:100%; border-collapse:collapse;" id="tabla-mejores">
             <thead>
@@ -62,11 +54,9 @@
             <tbody></tbody>
         </table>
     </div>
-
 </div>
-
 <script type="module" src="game-commons.js"></script>
-<script type="module" src="math-game.js"></script>
+<script type="module" src="memory-game.js"></script>
 <div id="countdown-overlay" style="display:none;">
     <span id="countdown-number"></span>
 </div>

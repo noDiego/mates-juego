@@ -1,0 +1,39 @@
+.memory-board {
+    display: grid;
+    gap: 12px;
+    justify-content: center;
+    margin: 32px 0 24px 0;
+}
+.card {
+    width: 76px;
+    height: 90px;
+    background: #e4fcfd;
+    border-radius: 9px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2.2rem;
+    font-weight: bold;
+    color: #1a2732;
+    border: 2px solid #90e0ef;
+    cursor: pointer;
+    user-select: none;
+    transition: background 0.15s, border 0.15s, transform 0.09s;
+}
+.card.flipped,
+.card.matched {
+    background: #bee9e8;
+    border-color: #43aa8b;
+    color: #0077b6;
+    transform: scale(1.07);
+}
+
+.card.matched {
+    background: #b0f2c2;
+    border-color: #59c97d;
+    color: #338a3e;
+}
+
+.card:not(.flipped):not(.matched) {
+    color: transparent;
+}

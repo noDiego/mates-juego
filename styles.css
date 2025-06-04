@@ -52,12 +52,21 @@ body {
 
 .problems {
     margin-top: 22px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 18px;
 }
 .problem-row {
+    width: 100%;
     display: flex;
     align-items: center;
     font-size: 1.25rem;
-    margin-bottom: 9px;
+    margin-bottom: 0;
+}
+@media (max-width: 600px) {
+    .problems {
+        grid-template-columns: 1fr;
+    }
 }
 .symbol {
     display: inline-block;
@@ -121,6 +130,14 @@ body {
 .scores-table tbody tr:nth-child(even) {
     background: #f6f9fa;
 }
+.scores-table td:first-child {
+    text-align: left;
+    padding-left: 12px; /* Opcional: para que no quede pegado al borde */
+}
+.scores-table th:first-child {
+    text-align: left;
+    padding-left: 12px;
+}
 .layout-row {
     display: flex;
     flex-direction: row;
@@ -133,7 +150,7 @@ body {
     box-sizing: border-box;
 }
 .scores-table-wrap {
-    max-width: 440px;   /* <--- aquí puedes ajustar el ancho máximo */
+    max-width: 480px;   /* <--- aquí puedes ajustar el ancho máximo */
     min-width: 260px;   /* <--- aquí aseguras más espacio mínimo */
     width: 100%;
     background: #fff;
@@ -185,4 +202,75 @@ body {
     0% {transform: scale(0.6);}
     40% {transform: scale(1.2);}
     100% {transform: scale(1);}
+}
+
+/** MENU **/
+.main-navbar {
+    width: 100vw;
+    background: rgba(255,255,255,0.92);
+    box-shadow: 0 1px 10px #003b7722;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 0;
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 18px;
+    min-height: 54px;
+}
+
+.nav-links {
+    display: flex;
+    gap: 17px;
+}
+
+.nav-link {
+    color: var(--primary);
+    text-decoration: none;
+    font-size: 1.08rem;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 5px;
+    transition: background 0.15s, color 0.16s;
+    display: inline-block;
+}
+
+.nav-link:hover, .nav-link.active {
+    background: var(--primary);
+    color: #fff;
+}
+
+.nav-logo {
+    color: var(--primary);
+    font-weight: 800;
+    font-size: 1.12rem;
+    letter-spacing: 1.1px;
+    background: none !important;
+    padding: 8px 8px;
+}
+
+/* Resposive para móvil */
+@media (max-width: 600px) {
+    .nav-container {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 0 6vw;
+        min-height: 54px;
+        gap: 5px;
+    }
+    .nav-links {
+        gap: 8px;
+        width: 100%;
+        justify-content: flex-start;
+    }
+    .main-navbar {
+        font-size: 1rem;
+    }
 }
