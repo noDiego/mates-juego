@@ -63,9 +63,19 @@ body {
     font-size: 1.25rem;
     margin-bottom: 0;
 }
-@media (max-width: 600px) {
+@media (max-width: 440px) {
     .problems {
-        grid-template-columns: 1fr;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        column-gap: 8px;
+        row-gap: 10px;
+    }
+    .problem-row {
+        font-size: 1.09rem;
+    }
+    .symbol {
+        width: 62px;
+        min-width: 53px;
+        margin-right: 3px;
     }
 }
 .symbol {
