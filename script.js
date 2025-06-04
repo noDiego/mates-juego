@@ -12,7 +12,8 @@ const MULT_FIRST_MIN = 2;
 const MULT_FIRST_MAX = 9;
 const MULT_SECOND_MIN = 3;
 const MULT_SECOND_MAX = 9;
-const URL = 'https://nodiego-noproxy.onrender.com/mathgame';
+const URL = 'https://nodiego.duckdns.org/score/api';
+const GAMENAME = 'mathgame';
 
 // ----- ELEMENTOS -----
 const timerElem = document.querySelector('.timer');
@@ -347,7 +348,7 @@ function enviarPuntaje(nombre, puntaje) {
     fetch(URL+'/score', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name: nombre, score: puntaje })
+        body: JSON.stringify({ name: nombre, score: puntaje, game: GAMENAME })
     })
         .then(res => res.json())
         .then(data => {
@@ -361,7 +362,7 @@ function enviarPuntaje(nombre, puntaje) {
 // ---- Tabla de Últimos Intentos ----
 async function cargarTablaScores() {
     try {
-        const scores = await fetchConEspera(URL + '/scores?limit=6');
+        const scores = await fetchConEspera(URL + '/scores?limit=6&game='+GAMENAME);
         const tbody = document.querySelector('.scores-table tbody');
         tbody.innerHTML = "";
         for(const s of scores) {
@@ -391,7 +392,7 @@ async function cargarTablaScores() {
 
 async function cargarTablaMejores() {
     try {
-        const scores = await fetchConEspera(URL + '/scores/top?limit=10');
+        const scores = await fetchConEspera(URL + '/scores/top?limit=10&game='+GAMENAME);
         const tbody = document.querySelector('#tabla-mejores tbody');
         tbody.innerHTML = "";
         for(const s of scores) {
