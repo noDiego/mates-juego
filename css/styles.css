@@ -154,11 +154,11 @@ body {
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: flex-start;  /* Para que las partes queden arriba alineadas */
+    align-items: flex-start;
     gap: 32px;
     min-height: 100vh;
     width: 100%;
-    padding-top: 40px;
+    padding-top: 20px;
     box-sizing: border-box;
 }
 .scores-table-wrap {
@@ -217,6 +217,7 @@ body {
 }
 
 /** MENU **/
+Copy/* MENU */
 .main-navbar {
     width: 100vw;
     background: rgba(255,255,255,0.92);
@@ -268,21 +269,116 @@ body {
     padding: 8px 8px;
 }
 
-/* Resposive para móvil */
+/* Responsive para móvil - MEJORADO */
 @media (max-width: 600px) {
     .nav-container {
         flex-direction: row;
         align-items: center;
-        padding: 0 2vw;
+        padding: 0 8px; /* Menos padding lateral */
         min-height: 50px;
-        gap: 10px;
+        gap: 5px; /* Menos gap */
     }
+
+    .nav-logo {
+        font-size: 1rem; /* Logo más pequeño */
+        padding: 6px 4px;
+    }
+
     .nav-links {
-        gap: 6px;
+        gap: 3px; /* Mucho menos gap entre links */
         width: auto;
         justify-content: flex-start;
     }
+
+    .nav-link {
+        font-size: 0.85rem; /* Texto más pequeño */
+        padding: 6px 8px; /* Menos padding */
+        border-radius: 4px;
+    }
+
     .main-navbar {
-        font-size: 0.98rem;
+        font-size: 0.85rem;
+    }
+}
+
+/* Para pantallas muy pequeñas */
+@media (max-width: 480px) {
+    .nav-container {
+        padding: 0 4px;
+        gap: 2px;
+    }
+
+    .nav-logo {
+        font-size: 0.9rem;
+        padding: 6px 2px;
+    }
+
+    .nav-links {
+        gap: 2px;
+    }
+
+    .nav-link {
+        font-size: 0.8rem;
+        padding: 6px 6px;
+    }
+}
+
+
+/* Estilos para input y botón en línea */
+.name-input-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin: 16px 0;
+}
+
+.name-input-row input {
+    padding: 8px 12px;
+    font-size: 1.1rem;
+    border: 2px solid #8883;
+    border-radius: 4px;
+    outline: none;
+    transition: border 0.18s;
+    flex: 1;
+    max-width: 200px;
+}
+
+.name-input-row input:focus {
+    border-color: var(--primary);
+}
+
+.compact-start-btn {
+    background: var(--primary);
+    border: none;
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 6px;
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+
+.compact-start-btn:hover {
+    background: #4361ee;
+}
+
+@media (max-width: 480px) {
+    .name-input-row {
+        gap: 8px;
+        margin: 12px 0;
+    }
+
+    .name-input-row input {
+        font-size: 1rem;
+        padding: 7px 10px;
+        max-width: 150px;
+    }
+
+    .compact-start-btn {
+        font-size: 1rem;
+        padding: 7px 16px;
     }
 }

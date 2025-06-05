@@ -17,7 +17,7 @@ const TARGET_POINTS = 20;
 const BIRD_EMOJI = '🦅';
 
 // ---- ELEMENTOS DOM ----
-const startBtn = document.querySelector('.start-btn');
+const startBtn = document.querySelector('.compact-start-btn');
 const timerElem = document.querySelector('.timer');
 const finalTimeElem = document.querySelector('.final-time');
 const newBestElem = document.querySelector('.new-best');
@@ -212,7 +212,7 @@ function startGame() {
     createBoard();
     updateUI();
     comenzarTimer(timerElem);
-    startBtn.innerText = "Reiniciar";
+    startBtn.innerText = "Stop!";
 
     // Mostrar primera ave después de un breve delay
     setTimeout(() => {
@@ -236,7 +236,7 @@ function endGame() {
     enviarPuntaje(playerName, t, JUEGOS_CONFIG.GAMENAME);
     recargarScoresTrasEnvio(JUEGOS_CONFIG.GAMENAME);
 
-    startBtn.innerText = "Comenzar";
+    startBtn.innerText = "Go!";
 }
 
 function limpiar() {
@@ -258,11 +258,10 @@ startBtn.addEventListener('click', () => {
         // Reiniciar juego
         gameRunning = false;
         detenerTimer(timerElem);
-        startBtn.innerText = "Comenzar";
+        startBtn.innerText = "Go!";
         limpiar();
         return;
     }
-
     mostrarCountdownIniciarJuego(countdownOverlay, countdownNumber, startGame);
 });
 

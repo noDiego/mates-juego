@@ -72,7 +72,12 @@ export function playClickSound() {
 }
 
 // ----- Countdown (opcional) ------
+let isCounting = false;
+
 export function mostrarCountdownIniciarJuego(overlay, numSpan, callbackDespues) {
+    if(isCounting) return;
+    isCounting = true;
+
     overlay.classList.add('show');
     numSpan.innerText = "";
     let count = 3;
@@ -91,10 +96,12 @@ export function mostrarCountdownIniciarJuego(overlay, numSpan, callbackDespues) 
             setTimeout(() => {
                 overlay.classList.remove('show');
                 numSpan.innerText = '';
+                isCounting = false;
                 callbackDespues && callbackDespues();
             }, 730);
         }
     }
+
     mostrarNumero(count);
 }
 export function playCountdownBeep(n, isLastBeep = false) {
@@ -223,10 +230,10 @@ export async function cargarTablaMejores(gameName=JUEGOS_CONFIG.GAMENAME, invers
     } finally { mostrarCargandoTabla(false); }
 }
 
-export function recargarScoresTrasEnvio(gameName=JUEGOS_CONFIG.GAMENAME) {
+export function recargarScoresTrasEnvio(gameName=JUEGOS_CONFIG.GAMENAME, inverse = false) {
     setTimeout(() => {
         cargarTablaScores(gameName);
-        cargarTablaMejores(gameName, true);
+        cargarTablaMejores(gameName, inverse);
     }, 1000);
 }
 

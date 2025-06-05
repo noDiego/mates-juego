@@ -9,7 +9,7 @@ JUEGOS_CONFIG.GAMENAME = 'fallingboxes';
 
 const canvas = document.getElementById('game-canvas');
 const ctx = canvas.getContext('2d');
-const startBtn = document.querySelector('.start-btn');
+const startBtn = document.querySelector('.compact-start-btn');
 const timerElem = document.querySelector('.timer');
 const finalTimeElem = document.querySelector('.final-time');
 const newBestElem = document.querySelector('.new-best');
@@ -305,7 +305,7 @@ function endGame() {
 
     const playerName = inputName.value.trim();
     enviarPuntaje(playerName, t, JUEGOS_CONFIG.GAMENAME);
-    recargarScoresTrasEnvio(JUEGOS_CONFIG.GAMENAME);
+    recargarScoresTrasEnvio(JUEGOS_CONFIG.GAMENAME, true);
 
     disableGameControls();
 }
@@ -336,12 +336,13 @@ startBtn.addEventListener('click', () => {
         return;
     }
 
+    gameRunning = true;
     mostrarCountdownIniciarJuego(countdownOverlay, countdownNumber, startGame);
 });
 
 // ---- INICIALIZACIÓN ----
 cargarTablaScores(JUEGOS_CONFIG.GAMENAME);
-cargarTablaMejores(JUEGOS_CONFIG.GAMENAME);
+cargarTablaMejores(JUEGOS_CONFIG.GAMENAME, true);
 limpiar();
 
 // Dibujar estado inicial

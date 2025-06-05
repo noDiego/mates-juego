@@ -19,7 +19,7 @@ const MULT_SECOND_MIN = 3;        const MULT_SECOND_MAX = 9;
 
 // ----- ELEMENTOS DOM -----
 const timerElem = document.querySelector('.timer');
-const startBtn = document.querySelector('.start-btn');
+const startBtn = document.querySelector('.compact-start-btn');
 const problemsElem = document.querySelector('.problems');
 const finalTimeElem = document.querySelector('.final-time');
 const newBestElem = document.querySelector('.new-best');

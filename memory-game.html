@@ -12,10 +12,9 @@
     <div class="nav-container">
         <a href="index.html" class="nav-link nav-logo">Jueguitos</a>
         <div class="nav-links">
-            <a href="index.html" class="nav-link">Matemáticas</a>
+            <a href="index.html" class="nav-link">Mates</a>
             <a href="memory-game.html" class="nav-link active">Memoria</a>
             <a href="ave-game.html" class="nav-link">🦅</a>
-<!--            <a href="falling-boxes.html" class="nav-link">Cajitas</a>-->
         </div>
     </div>
 </nav>
@@ -23,11 +22,12 @@
     <div class="container">
         <h1 class="title">Memoria!</h1>
         <div class="timer">⏱ 0.00s</div>
-        <div class="name-row" style="text-align:center; margin-bottom:16px;margin-top:16px;">
-            <input id="player-name" type="text" autocomplete="off" placeholder="Tu nombre" maxlength="20"
-                   style="padding:10px; font-size:1.15rem; width:70%;">
+
+        <div class="name-input-row">
+            <input id="player-name" type="text" autocomplete="off" placeholder="Tu nombre" maxlength="20">
+            <button id="restart-button" class="compact-start-btn">Go!</button>
         </div>
-        <button id="restart-button" class="start-btn">Comenzar</button>
+
         <div id="game-board" class="memory-board"></div>
         <div class="final-time" style="display:none"></div>
         <div class="new-best" style="display:none">¡Nuevo Mejor Tiempo!</div>
