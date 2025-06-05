@@ -200,9 +200,9 @@ export async function cargarTablaScores(gameName=JUEGOS_CONFIG.GAMENAME) {
     } finally { mostrarCargandoTabla(false); }
 }
 
-export async function cargarTablaMejores(gameName=JUEGOS_CONFIG.GAMENAME) {
+export async function cargarTablaMejores(gameName=JUEGOS_CONFIG.GAMENAME, inverse = false) {
     try {
-        const scores = await fetchConEspera(`${JUEGOS_CONFIG.URL}/scores/top-high?limit=${JUEGOS_CONFIG.LIMIT_TOP}&game=${gameName}`);
+        const scores = await fetchConEspera(`${JUEGOS_CONFIG.URL}/scores/top${inverse?'-high':''}?limit=${JUEGOS_CONFIG.LIMIT_TOP}&game=${gameName}`);
         const tbody = document.querySelector('#tabla-mejores tbody');
         tbody.innerHTML = "";
         for(const s of scores) {
@@ -226,7 +226,7 @@ export async function cargarTablaMejores(gameName=JUEGOS_CONFIG.GAMENAME) {
 export function recargarScoresTrasEnvio(gameName=JUEGOS_CONFIG.GAMENAME) {
     setTimeout(() => {
         cargarTablaScores(gameName);
-        cargarTablaMejores(gameName);
+        cargarTablaMejores(gameName, true);
     }, 1000);
 }
 

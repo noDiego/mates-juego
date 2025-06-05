@@ -1,0 +1,101 @@
+.ave-board {
+    display: grid;
+    grid-template-columns: repeat(6, 60px);
+    grid-template-rows: repeat(4, 60px);
+    gap: 12px;
+    justify-content: center;
+    margin: 24px 0;
+    user-select: none;
+}
+
+.ave-circle {
+    width: 60px;
+    height: 60px;
+    background: #e8f4f8;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    box-shadow: 0 3px 8px rgba(144, 224, 239, 0.3);
+    cursor: pointer;
+    border: 2px solid #90e0ef;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.ave-circle:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 12px rgba(144, 224, 239, 0.5);
+}
+
+.ave-circle.has-bird {
+    background: #fff3cd;
+    border-color: #ffc107;
+    animation: bird-pulse 0.6s ease-in-out infinite alternate;
+}
+
+.ave-circle.clicked-correct {
+    background: #d4edda;
+    border-color: #28a745;
+    animation: success-flash 0.5s ease-out;
+}
+
+.ave-circle.clicked-wrong {
+    background: #f8d7da;
+    border-color: #dc3545;
+    animation: error-shake 0.5s ease-out;
+}
+
+@keyframes bird-pulse {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.08); }
+}
+
+@keyframes success-flash {
+    0% { background: #28a745; transform: scale(1.15); }
+    100% { background: #d4edda; transform: scale(1); }
+}
+
+@keyframes error-shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-4px); }
+    75% { transform: translateX(4px); }
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.score {
+    color: #0077b6;
+}
+
+.bird-timer {
+    color: #43aa8b;
+}
+
+@media (max-width: 480px) {
+    .ave-board {
+        grid-template-columns: repeat(6, 50px);
+        grid-template-rows: repeat(4, 50px);
+        gap: 8px;
+    }
+
+    .ave-circle {
+        width: 50px;
+        height: 50px;
+        font-size: 1.6rem;
+    }
+
+    .game-info {
+        flex-direction: column;
+        gap: 5px;
+        font-size: 1rem;
+    }
+}
