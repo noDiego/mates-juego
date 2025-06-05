@@ -1,0 +1,28 @@
+.reflejos-board {
+    display: grid;
+    grid-template-columns: repeat(6, 40px);  /* ahora 6 columnas */
+    grid-template-rows: repeat(4, 40px);     /* ahora 4 filas */
+    gap: 14px;
+    justify-content: center;
+    margin: 34px 0 24px 0;
+    user-select: none;
+}
+.reflejos-circle {
+    width: 40px;     /* más pequeño */
+    height: 40px;    /* más pequeño */
+    background: #b9eaff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.45rem;
+    box-shadow: 0 3px 10px #90e0ef55;
+    cursor: pointer;
+    border: 2px solid #62a9e3;
+    transition: background 0.15s, transform 0.1s, border 0.14s;
+}
+.reflejos-circle.active { background: #ffeaa7; border-color: #fdc531; transform: scale(1.17);}
+.reflejos-circle.happy { color: #09991b;}
+.reflejos-circle.angry { background: #ffd6d6; color: #c02c2c; border-color: #c02c2c; }
+.reflejos-circle.fail { background: #ff9f43 !important;}
+.reflejos-circle:hover { filter: brightness(1.08);}

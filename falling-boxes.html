@@ -2,32 +2,54 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Juego de Memoria</title>
+    <title>Cajas que Caen</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="css/memory-game.css">
     <link rel="stylesheet" href="css/styles.css">
+    <style>
+        #game-canvas {
+            border: 3px solid #0077b6;
+            border-radius: 8px;
+            background: linear-gradient(180deg, #87ceeb 0%, #f0f8ff 100%);
+            cursor: none;
+        }
+        .canvas-container {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .game-info {
+            text-align: center;
+            margin: 10px 0;
+            font-size: 1.1rem;
+            color: #0077b6;
+        }
+    </style>
 </head>
 <body>
+
 <nav class="main-navbar">
     <div class="nav-container">
         <a href="index.html" class="nav-link nav-logo">Jueguitos</a>
         <div class="nav-links">
             <a href="index.html" class="nav-link">Matemáticas</a>
-            <a href="memory-game.html" class="nav-link active">Memoria</a>
-            <a href="falling-boxes.html" class="nav-link">Cajitas</a>
+            <a href="memory-game.html" class="nav-link">Memoria</a>
+            <a href="falling-boxes.html" class="nav-link active">Cajitas</a>
         </div>
     </div>
 </nav>
+
 <div class="layout-row">
     <div class="container">
-        <h1 class="title">Memoria!</h1>
+        <h1 class="title">Cajitas! 📦</h1>
         <div class="timer">⏱ 0.00s</div>
         <div class="name-row" style="text-align:center; margin-bottom:16px;margin-top:16px;">
             <input id="player-name" type="text" autocomplete="off" placeholder="Tu nombre" maxlength="20"
                    style="padding:10px; font-size:1.15rem; width:70%;">
         </div>
-        <button id="restart-button" class="start-btn">Comenzar</button>
-        <div id="game-board" class="memory-board"></div>
+        <button class="start-btn">Comenzar</button>
+        <div class="canvas-container">
+            <canvas id="game-canvas" width="400" height="500"></canvas>
+        </div>
         <div class="final-time" style="display:none"></div>
         <div class="new-best" style="display:none">¡Nuevo Mejor Tiempo!</div>
     </div>
@@ -56,10 +78,13 @@
         </table>
     </div>
 </div>
+
 <script type="module" src="scripts/game-commons.js"></script>
-<script type="module" src="scripts/memory-game.js"></script>
+<script type="module" src="scripts/falling-boxes.js"></script>
+
 <div id="countdown-overlay" style="display:none;">
     <span id="countdown-number"></span>
 </div>
+
 </body>
 </html>

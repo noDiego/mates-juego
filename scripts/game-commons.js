@@ -202,7 +202,7 @@ export async function cargarTablaScores(gameName=JUEGOS_CONFIG.GAMENAME) {
 
 export async function cargarTablaMejores(gameName=JUEGOS_CONFIG.GAMENAME) {
     try {
-        const scores = await fetchConEspera(`${JUEGOS_CONFIG.URL}/scores/top?limit=${JUEGOS_CONFIG.LIMIT_TOP}&game=${gameName}`);
+        const scores = await fetchConEspera(`${JUEGOS_CONFIG.URL}/scores/top-high?limit=${JUEGOS_CONFIG.LIMIT_TOP}&game=${gameName}`);
         const tbody = document.querySelector('#tabla-mejores tbody');
         tbody.innerHTML = "";
         for(const s of scores) {
