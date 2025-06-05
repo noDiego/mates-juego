@@ -190,14 +190,14 @@ function onCircleClick(clickedIndex) {
         }, 300);
 
         // Mover ave actual a nueva posición
-        if (currentBirdIndex !== -1) {
-            hideBird();
-            setTimeout(() => {
-                if (gameRunning) {
-                    showBird();
-                }
-            }, 200);
-        }
+        // if (currentBirdIndex !== -1) {
+        //     hideBird();
+        //     setTimeout(() => {
+        //         if (gameRunning) {
+        //             showBird();
+        //         }
+        //     }, 200);
+        // }
     }
 }
 
