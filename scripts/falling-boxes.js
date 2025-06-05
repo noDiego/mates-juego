@@ -42,17 +42,28 @@ let currentBoxSpeed = INITIAL_BOX_SPEED;
 let animationId = null;
 
 // ---- CONTROLES ----
-document.addEventListener('keydown', (e) => {
-    keys[e.key.toLowerCase()] = true;
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' ||
-        e.key === 'a' || e.key === 'd') {
-        e.preventDefault();
-    }
-});
+let handleKeyDown, handleKeyUp;
 
-document.addEventListener('keyup', (e) => {
-    keys[e.key.toLowerCase()] = false;
-});
+function enableGameControls() {
+    handleKeyDown = (e) => {
+        keys[e.key.toLowerCase()] = true;
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowRight' ||
+            e.key === 'a' || e.key === 'd') {
+            e.preventDefault();
+        }
+    };
+    handleKeyUp = (e) => {
+        keys[e.key.toLowerCase()] = false;
+    };
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
+}
+
+function disableGameControls() {
+    document.removeEventListener('keydown', handleKeyDown);
+    document.removeEventListener('keyup', handleKeyUp);
+}
+
 
 // ---- UTILIDADES ----
 function random(min, max) {
@@ -271,6 +282,8 @@ function startGame() {
     comenzarTimer(timerElem);
     startBtn.innerText = "Reiniciar";
 
+    enableGameControls();
+
     gameLoop();
 }
 
@@ -293,6 +306,8 @@ function endGame() {
     const playerName = inputName.value.trim();
     enviarPuntaje(playerName, t, JUEGOS_CONFIG.GAMENAME);
     recargarScoresTrasEnvio(JUEGOS_CONFIG.GAMENAME);
+
+    disableGameControls();
 }
 
 function limpiar() {
