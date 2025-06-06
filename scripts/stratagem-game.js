@@ -117,25 +117,26 @@ const ARROW_SIZE = 'medium'; // Cambia esto para ajustar el tamaño
 
 // ---- STRATAGEMS DATA ----
 const STRATAGEMS = [
-    { name: "Reinforcements", sequence: "UDRLU", image: "images/stratagems/Reinforce_Icon.webp" },
-    { name: "Resupply", sequence: "DDUR", image: "images/stratagems/Resupply_Icon.webp" },
-    { name: "Hellbomb", sequence: "DULDURDU", image: "images/stratagems/Hellbomb_Icon.webp" },
-    { name: "Orbital Laser", sequence: "RDURU", image: "images/stratagems/Orbital_Laser_Icon.webp" },
-    { name: "Orbital EMS Strike", sequence: "RRLD", image: "images/stratagems/Orbital_EMS_Strike_Icon.webp" },
-    { name: "Orbital 120MM", sequence: "RRULRU", image: "images/stratagems/Orbital_120MM_HE_Barrage_Icon.webp" },
-    { name: "Orbital 380MM", sequence: "RDUULDD", image: "images/stratagems/Orbital_380MM_HE_Barrage_Icon.webp" },
-    { name: "Precision Strike", sequence: "RRU", image: "images/stratagems/Orbital_Precision_Strike_Icon.webp" },
-    { name: "Eagle Smoke", sequence: "URUD", image: "images/stratagems/Eagle_Smoke_Strike_Icon.webp" },
-    { name: "Eagle Airstrike", sequence: "URDR", image: "images/stratagems/Eagle_Airstrike_Icon.webp" },
-    { name: "Eagle Cluster Bomb", sequence: "URDDR", image: "images/stratagems/Eagle_Cluster_Bomb_Icon.webp" },
-    { name: "Eagle Napalm", sequence: "URDU", image: "images/stratagems/Eagle_Napalm_Airstrike_Icon.webp" },
-    { name: "Eagle Strafing Run", sequence: "URR", image: "images/stratagems/Eagle_Strafing_Run_Icon.webp" },
-    { name: "Anti-Tank Mines", sequence: "DLUU", image: "images/stratagems/Anti-Tank_Mines_Icon.webp" },
-    { name: "Gas Mines", sequence: "DLLR", image: "images/stratagems/Gas_Mines_Icon.webp" },
-    { name: "Tesla Tower", sequence: "DURULR", image: "images/stratagems/Tesla_Tower_Icon.webp" },
-    { name: "Shield Generator Pack", sequence: "DULRLR", image: "images/stratagems/Shield_Generator_Pack_Icon.webp" },
-    { name: "Jump Pack", sequence: "DUUDDU", image: "images/stratagems/Jump_Pack_Icon.webp" },
-    { name: "Supply Pack", sequence: "DLDUUD", image: "images/stratagems/Supply_Pack_Icon.webp" }
+    { name: "Reinforcements", sequence: "UDRLU", image: "images/stratagems/Reinforce_Icon.svg" },
+    { name: "Resupply", sequence: "DDUR", image: "images/stratagems/Resupply_Icon.svg" },
+    { name: "Hellbomb", sequence: "DULDURDU", image: "images/stratagems/Hellbomb_Icon.svg" },
+    { name: "Orbital Laser", sequence: "RDURU", image: "images/stratagems/Orbital_Laser_Icon.svg" },
+    { name: "Orbital EMS Strike", sequence: "RRLD", image: "images/stratagems/Orbital_EMS_Strike_Icon.svg" },
+    { name: "Orbital 120MM", sequence: "RRULRU", image: "images/stratagems/Orbital_120MM_HE_Barrage_Icon.svg" },
+    { name: "Orbital 380MM", sequence: "RDUULDD", image: "images/stratagems/Orbital_380MM_HE_Barrage_Icon.svg" },
+    { name: "Precision Strike", sequence: "RRU", image: "images/stratagems/Orbital_Precision_Strike_Icon.svg" },
+    { name: "Eagle Smoke", sequence: "URUD", image: "images/stratagems/Eagle_Smoke_Strike_Icon.svg" },
+    { name: "Eagle Airstrike", sequence: "URDR", image: "images/stratagems/Eagle_Airstrike_Icon.svg" },
+    { name: "Eagle Cluster Bomb", sequence: "URDDR", image: "images/stratagems/Eagle_Cluster_Bomb_Icon.svg" },
+    { name: "Eagle Napalm", sequence: "URDU", image: "images/stratagems/Eagle_Napalm_Airstrike_Icon.svg" },
+    { name: "Eagle Strafing Run", sequence: "URR", image: "images/stratagems/Eagle_Strafing_Run_Icon.svg" },
+    { name: "Anti-Tank Mines", sequence: "DLUU", image: "images/stratagems/Anti-Tank_Mines_Icon.svg" },
+    { name: "Gas Mines", sequence: "DLLR", image: "images/stratagems/Gas_Mines_Icon.svg" },
+    { name: "Tesla Tower", sequence: "DURULR", image: "images/stratagems/Tesla_Tower_Icon.svg" },
+    { name: "Shield Generator Pack", sequence: "DULRLR", image: "images/stratagems/Shield_Generator_Pack_Icon.svg" },
+    { name: "Jump Pack", sequence: "DUUDDU", image: "images/stratagems/Jump_Pack_Icon.svg" },
+    { name: "Wencho", sequence: "UDDDDDDU", image: "images/stratagems/Wencho.png" },
+    { name: "Supply Pack", sequence: "DLDUUD", image: "images/stratagems/Supply_Pack_Icon.svg" }
 ];
 
 // ---- ELEMENTOS DOM ----
