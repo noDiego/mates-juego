@@ -135,7 +135,7 @@ const STRATAGEMS = [
     { name: "Tesla Tower", sequence: "DURULR", image: "images/stratagems/Tesla_Tower_Icon.svg" },
     { name: "Shield Generator Pack", sequence: "DULRLR", image: "images/stratagems/Shield_Generator_Pack_Icon.svg" },
     { name: "Jump Pack", sequence: "DUUDDU", image: "images/stratagems/Jump_Pack_Icon.svg" },
-    { name: "Wencho", sequence: "UDDDDDDU", image: "images/stratagems/wencho.webp" },
+    { name: "Wencho", sequence: "UDDDU", image: "images/stratagems/wencho.webp" },
     { name: "Supply Pack", sequence: "DLDUUD", image: "images/stratagems/Supply_Pack_Icon.svg" }
 ];
 
