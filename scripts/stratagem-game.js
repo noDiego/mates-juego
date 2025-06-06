@@ -153,6 +153,7 @@ const stratagemNameElem = document.querySelector('.stratagem-name');
 const stratagemSequenceElem = document.querySelector('.stratagem-sequence');
 const stratagemImageElem = document.querySelector('.stratagem-image'); // NUEVO
 const timeBarElem = document.querySelector('.time-bar');
+const virtualKeyboard = document.getElementById('virtual-keyboard');
 const arrowButtons = document.querySelectorAll('.arrow-btn');
 
 // ---- ESTADO DEL JUEGO ----
@@ -411,6 +412,21 @@ function limpiar() {
     timeBarElem.classList.remove('warning');
 }
 
+// Función para detectar si es dispositivo móvil
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ||
+        (window.innerWidth <= 768);
+}
+
+// Mostrar/ocultar teclado virtual según el dispositivo
+function toggleVirtualKeyboard() {
+    if (isMobileDevice()) {
+        virtualKeyboard.style.display = 'block';
+    } else {
+        virtualKeyboard.style.display = 'none';
+    }
+}
+
 // ---- EVENTOS ----
 startBtn.addEventListener('click', () => {
     if (!inputName.value.trim()) {
@@ -434,11 +450,34 @@ startBtn.addEventListener('click', () => {
 
 // Controles de flechas (botones)
 arrowButtons.forEach(btn => {
-    btn.addEventListener('click', () => {
+    btn.addEventListener('click', (e) => {
+        e.preventDefault();
         const direction = btn.dataset.direction;
-        processInput(direction);
+        if (direction) {
+            processInput(direction);
+
+            // Efecto visual mejorado
+            btn.style.transform = 'scale(0.9)';
+            setTimeout(() => {
+                btn.style.transform = '';
+            }, 150);
+        }
+    });
+
+    // Prevenir comportamientos no deseados en móvil
+    btn.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+    });
+
+    btn.addEventListener('touchend', (e) => {
+        e.preventDefault();
+        const direction = btn.dataset.direction;
+        if (direction) {
+            processInput(direction);
+        }
     });
 });
+
 
 // Controles de teclado
 document.addEventListener('keydown', (e) => {
@@ -484,6 +523,7 @@ document.addEventListener('visibilitychange', () => {
         }
     }
 });
+window.addEventListener('resize', toggleVirtualKeyboard);
 
 // ---- INICIALIZACIÓN ----
 cargarTablaScores(JUEGOS_CONFIG.GAMENAME);
@@ -491,3 +531,4 @@ cargarTablaMejores(JUEGOS_CONFIG.GAMENAME, true); // true para mejores puntajes 
 limpiar();
 updateUI();
 setArrowSize(ARROW_SIZE);
+toggleVirtualKeyboard();
