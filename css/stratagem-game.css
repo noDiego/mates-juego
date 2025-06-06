@@ -249,12 +249,6 @@
     .game-instructions .score {
         font-size: 0.9rem;
     }
-
-    .game-instructions .score::after {
-        content: " o usa los botones ↓";
-        color: #43aa8b;
-        font-weight: bold;
-    }
 }
 
 @media (max-width: 480px) {
