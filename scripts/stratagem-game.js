@@ -173,7 +173,7 @@ function setArrowSize(size) {
     if (typeof size === 'string') {
         switch(size) {
             case 'small': sizeValue = '25px'; break;
-            case 'medium': sizeValue = '35px'; break;
+            case 'medium': sizeValue = '32px'; break;
             case 'large': sizeValue = '45px'; break;
             case 'xlarge': sizeValue = '55px'; break;
             default: sizeValue = '35px';
