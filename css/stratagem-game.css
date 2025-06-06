@@ -1,0 +1,235 @@
+.current-stratagem {
+    background: #494949;
+    border: 2px solid #0077b6;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    text-align: center;
+}
+
+.stratagem-name {
+    font-size: 1.3rem;
+    font-weight: bold;
+    color: white;
+    margin-bottom: 15px;
+}
+
+.stratagem-sequence {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    min-height: 40px;
+    align-items: center;
+}
+
+.stratagem-image {
+    width: 60px;
+    height: 60px;
+    margin: 10px auto 15px auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8;
+}
+
+.stratagem-image img {
+    width: 60px !important;
+    height: 60px !important;
+    object-fit: contain;
+    filter: brightness(1.4) contrast(1.1) drop-shadow(2px 2px 4px rgba(0,0,0,0.2));
+}
+
+/* Responsive para móviles */
+@media (max-width: 480px) {
+    .stratagem-image {
+        width: 50px;
+        height: 50px;
+        margin: 8px auto 12px auto;
+    }
+
+    .stratagem-image img {
+        width: 50px !important;
+        height: 50px !important;
+    }
+}
+
+.sequence-arrow {
+    width: var(--arrow-size);
+    height: var(--arrow-size);
+    background: transparent; /* Quitar fondo ya que usaremos imágenes */
+    border: none; /* Quitar borde */
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0; /* Ocultar texto */
+    transition: all 0.2s ease;
+    position: relative;
+    overflow: hidden;
+}
+
+.sequence-arrow img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    transition: all 0.2s ease;
+}
+
+.sequence-arrow.correct {
+    background: rgba(212, 237, 218, 0.8); /* Fondo semi-transparente verde */
+    border: 2px solid #28a745;
+    transform: scale(1.1);
+}
+
+.sequence-arrow.correct img {
+    filter: brightness(1.2) contrast(1.1);
+}
+
+.sequence-arrow.error {
+    background: rgba(248, 215, 218, 0.8); /* Fondo semi-transparente rojo */
+    border: 2px solid #dc3545;
+    animation: shake 0.3s ease-in-out;
+}
+
+.sequence-arrow.error img {
+    filter: brightness(0.8) sepia(1) hue-rotate(320deg) saturate(3);
+}
+
+/* Clase para configurar diferentes tamaños */
+.sequence-arrow.size-small {
+    --arrow-size: 25px;
+}
+
+.sequence-arrow.size-medium {
+    --arrow-size: 35px;
+}
+
+.sequence-arrow.size-large {
+    --arrow-size: 45px;
+}
+
+.sequence-arrow.size-xlarge {
+    --arrow-size: 55px;
+}
+
+/* Responsive para móviles */
+@media (max-width: 480px) {
+    :root {
+        --arrow-size: 30px;
+    }
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-3px); }
+    75% { transform: translateX(3px); }
+}
+
+.time-bar-container {
+    width: 100%;
+    height: 12px;
+    background: #e9ecef;
+    border-radius: 6px;
+    margin: 20px 0;
+    overflow: hidden;
+    border: 1px solid #adb5bd;
+}
+
+.time-bar {
+    height: 100%;
+    background: linear-gradient(90deg, #28a745, #ffc107, #dc3545);
+    width: 100%;
+    transition: width 0.1s linear;
+}
+
+.arrow-controls {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    margin: 25px 0;
+    user-select: none;
+}
+
+.arrow-row {
+    display: flex;
+    gap: 8px;
+}
+
+.arrow-btn {
+    width: 50px;
+    height: 50px;
+    background: #e9ecef;
+    border: 2px solid #adb5bd;
+    border-radius: 8px;
+    font-size: 1.8rem;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.arrow-btn:hover {
+    background: #dee2e6;
+    transform: scale(1.05);
+}
+
+.arrow-btn:active {
+    background: #0077b6;
+    color: white;
+    transform: scale(0.95);
+}
+
+.game-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 10px 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+
+.score {
+    color: #0077b6;
+}
+
+.stratagems-left {
+    color: #43aa8b;
+}
+
+/* Mobile responsive */
+@media (max-width: 480px) {
+    .current-stratagem {
+        padding: 15px;
+    }
+
+    .stratagem-name {
+        font-size: 1.1rem;
+    }
+
+    .sequence-arrow {
+        width: 30px;
+        height: 30px;
+        font-size: 1.2rem;
+    }
+
+    .arrow-btn {
+        width: 45px;
+        height: 45px;
+        font-size: 1.6rem;
+    }
+
+    .game-info {
+        flex-direction: column;
+        gap: 5px;
+        font-size: 1rem;
+    }
+}
+
+
+/* Configuración para imágenes de flechas */
+:root {
+    --arrow-size: 35px; /* Tamaño configurable para las flechas en la secuencia */
+}
