@@ -121,7 +121,7 @@ body {
     100% { transform: scale(1);}
 }
 .final-time {
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     color: var(--primary);
     text-align: center;
     margin-top: 16px;

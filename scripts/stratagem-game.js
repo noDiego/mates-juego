@@ -392,7 +392,7 @@ function endGame() {
     soundManager.stopBGMusic();
     playGameOverSound();
 
-    finalTimeElem.innerText = `¡Duraste ${finalTime.toFixed(2)}s! | Acivaste: ${gameState.stratagemsCompleted} stratagemas`;
+    finalTimeElem.innerText = `¡Duraste ${finalTime.toFixed(2)}s! | Activaste: ${gameState.stratagemsCompleted} stratagemas`;
     finalTimeElem.style.display = "";
 
     const playerName = inputName.value.trim();
